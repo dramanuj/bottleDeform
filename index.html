@@ -1,0 +1,231 @@
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Bottle Deform</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        
+        <link rel="stylesheet" class="text/css" href="./sliderJS/css/ion.rangeSlider.css"/>
+        <link rel="stylesheet" class="text/css" href="./sliderJS/css/ion.rangeSlider.skinNice.css"/>
+        <link rel="stylesheet" class="text/css" href="./sliderJS/css/normalize.min.css"/>
+        <link rel="stylesheet" href="./buttonJS/css/font-awesome.css"/>
+        <link rel="stylesheet" href="./buttonJS/css/buttons.css"/>
+        <style>
+		
+			html {overflow-y: scroll;}
+		
+			body {
+				background:#ffffff;
+				color:#ffffff;
+				padding:20;
+				margin:20;
+				font-weight: normal;
+                font: Arial; 
+				overflow:hidden;
+			}
+
+		            
+            #sliderGroup {
+				position: absolute;
+				top: 50px; 
+                left: 600px;
+                width: 350px;
+                height: 500px;
+                margin:5px;
+				color: #000000;
+				padding: 10px;
+				font-family: Monospace;
+				font-size: 14px;
+				text-align: center;
+                -webkit-transform: translate(0);
+                
+			}
+            
+            
+              #buttonGroup {
+				position: absolute;
+				top: 425px; 
+                left: 525px;
+                width: 400px;
+                height:250px;
+				color: #000000;
+				padding: 15px;
+				font-family: Monospace;
+				font-size: 15px;
+				text-align: center;
+			    -webkit-transform: translate(0);
+			}
+            
+            
+            #linkArea {
+				position: absolute;
+				top: 588px; 
+                left:900px;
+                width: 100px;
+                height: 25px;
+				color: #000000;
+				padding: 5px;
+				font-family: Monospace;
+				font-size: 15px;
+				text-align: center;
+			    -webkit-transform: translate(0);
+			}
+            
+            
+            
+            
+            
+             #renderArea {
+				position: absolute;
+				top: 10px; 
+                left:10px;
+				color: #000000;
+				padding: 5px;
+                margin:5px;
+				font-family: Monospace;
+				font-size: 15px;
+				text-align: center;
+				z-index:0;
+			}
+            
+            
+            
+            
+			 #mouseDataBox {
+				position: absolute;
+				top: 525px;
+				left: 30px;
+				width: 500px;
+                height: 75px;
+				color: #000000;
+				padding: 2px;
+                text-align: left;
+				font-family: Monospace;
+				font-size: 15px;
+				z-index:0;
+				-webkit-transform: translate(0);
+			}
+            
+            
+			#metaDataBox {
+				position: absolute;
+				top: 575px;
+				left: 825px;
+				width: 500px;
+                height: 75px;
+				color: #000000;
+				padding: 2px;
+                text-align: left;
+				font-family: Monospace;
+				font-size: 15px;
+				z-index:0;
+				-webkit-transform: translate(0);
+			}
+
+        #metaDataTextArea {
+            width:100%;
+            height:80%; 
+            -moz-box-shadow:    inset 0 0 5px #888888;
+            -webkit-box-shadow: inset 0 0 5px #888888;
+            box-shadow:         inset 0 0 5px #888888;
+			-webkit-transform: translate(0);
+        }
+			
+            a:hover {color: #66a266; text-decoration: underline;}
+            a:active {color: #6666b2; text-decoration: underline;}
+
+		</style>
+    
+    </head>
+
+	<body>
+		
+        <script src="./jQuery/jquery-1.11.1.min.js"></script>
+        <script src="./d3/d3.min.js"></script>
+        
+		<script src="./js3/three.min.js"></script>
+		<script src="./js3/Detector.js"></script>
+		<script src="./js3/libs/stats.min.js"></script>
+		<script src="./js3/loaders/OBJLoader.js"></script>
+		<script src="./js3/controls/TrackballControls.js"></script>
+        <script src="./js3/controls/OrbitControls.js"></script>
+        <script src="./js3/fonts/helvetiker.js"></script>
+        
+        <script src="./sliderJS/ion.rangeSlider.min.js"></script>
+        <script type="text/javascript" src="./buttonJS/js/buttons.js"></script>
+        
+  
+        <script src="./myjs/objLoader.js"></script>
+        <script src="./myjs/sceneSetup.js"></script>
+        <script src="./myjs/sliders.js"></script>
+        <script src="./myjs/filedownload.js"></script>
+        <script src="./myjs/cylinderModeler.js"></script>
+        
+         <div id="renderArea">
+         <p><font color="#007F00"> Design a cola/soda bottle that is environmnetally friendly! </p>
+        </div>
+		
+         <div id="sliderGroup">
+           <!--
+             <p> Flatness </p>       
+            <input type="text" id="sliderThree" />
+-->
+              <p> Amount of deformation </p>
+            <input type="text" id="sliderTwo" />
+             
+              <p> Thickness of deformation </p>
+            <input type="text" id="sliderOne" />
+                
+              <p>Click here to show/hide hand model for scale</p>
+            <a href="#" class="button button-rounded button-primary" id="buttonThree" onclick="toggleHuman()" >Show/Hide Hand</a>
+             
+             
+             <p>Click to reset data</p>
+            <a href="#" class="button button-rounded button-caution" id="buttonOne" onclick="resetMorphData()" >Reset Data</a>
+            
+        </div>
+        </div>
+        
+        <div id="buttonGroup">
+       <p>After you are done, download the data file and save it to your desktop. Then, close this window and upload the file to the survey.</p>
+            <a href="#" class="button button-rounded button-action" id="buttonTwo" onclick="writeDataToFile()" >Click here to download file</a>
+           
+        </div>
+    
+        <div id="linkArea">
+        <a download="car_data.deform" id="downloadlink" style="display: none" onclick="hideDownloadLink()" oncontextmenu="return false;" >Download</a>
+    </div>
+        <div id="mouseDataBox">
+          <p><font color="#007F00">Mouse Controls:</font> <br> Left click and drag to rotate model <br>  Right click and drag to pan model <br>   Center click and scroll to zoom model</p>
+    </div>
+
+        <div id="metaDataBox">
+            <p>Please enter at least 5 keywords separated by semicolons. The keywords should give us more information about your idea. For example, you can talk about  features such as usage scenarios, color, material, etc...). If necessary, you can also write complete sentences to describe your idea. <font color="#ff3232">Please add a semicolon at the end of a keyword or sentence</font>.</p>
+            <textarea id="metaDataTextArea"placeholder="Please enter your keywords here;" ></textarea>
+        </div>
+        
+		<script>
+			if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
+
+			var container, stats;
+			var camera, controls, scene, renderer;
+			var mouseX = 0, mouseY = 0;
+            var cylinderMorphVals = [0,0,2];
+            var selectedSphereId ;
+            var histsphereMorphVals=[];
+			var myMaterial;
+            var startSeconds = new Date().getTime() / 1000;
+            var cylinderIntersectPoint =[];
+            var cylContextSet = false;
+            var humanVisible = false;
+            var isScalePressed = false;
+           // renderArea.addEventListener( 'mousemove', onRenderAreaMouseMove, false );
+            init();
+            animate();
+            makeSlider();
+                                         
+		</script>
+
+	</body>
+</html>
